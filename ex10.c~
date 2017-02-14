@@ -15,8 +15,8 @@ int main(int argc, char *argv[])
 		letter = argv[1][i];		
 		switch(letter)
 		{
-			case 'a':
-			case 'A':
+			case 97:
+			case 65:
 				printf("A: %d\n", 'A');
 				break;
 			case 'e':
