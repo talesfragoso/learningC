@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 	int num_states = 4;
 	for(i = 0; i < num_states; i++)
 	{		
-		for(j = 0; states[i][j] != 3; j++)
+		for(j = 0; states[i][j] != '\0'; j++)
 			printf("%c", states[i][j]);
 	printf("\n");	
 	}
