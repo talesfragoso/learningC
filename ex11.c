@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 	printf("%s\n", name);
 	char *another;
 	another = "Zed";
-	printf("%s\n", name);
-	printf("%c %c %c %c\n", name[0], name[1], name[2], name[3]);
+	printf("%s\n", another);
+	printf("%c %c %c %c\n", another[0], another[1], another[2], another[3]);
 	return 0;
 }
