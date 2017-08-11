@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 	{
 		fputc(name[i], stdout);
 		i++;
-	} while(i < 5); 
+	} while(i == 4); 
 	return 0;
 }
 	
