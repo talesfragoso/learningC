@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 
 int can_print_it(char ch);
-void print_letters(char arg[]);
+void print_letters(char arg[], unsigned int len);
 void print_arguments(int argc, char *argv[]);
 
 int main(int argc, char *argv[])
@@ -16,11 +17,11 @@ int can_print_it(char ch)
 	return isalpha(ch) || isblank(ch);
 }
 
-void print_letters(char arg[])
+void print_letters(char arg[], unsigned int len)
 {
-	short unsigned int i;
+	unsigned int i;
 
-	for(i = 0; arg[i] != '\0'; i++)
+	for(i = 0; i < len; i++)
 	{
 		if(can_print_it(arg[i]))
 		{
@@ -31,10 +32,10 @@ void print_letters(char arg[])
 
 void print_arguments(int argc, char *argv[])
 {
-	short unsigned int i;
+	unsigned int i;
 
 	for(i = 0; i < argc; i++)
 	{
-		print_letters(argv[i]);
+		print_letters(argv[i], strlen(argv[i]));
 	}
 }
