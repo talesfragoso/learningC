@@ -37,3 +37,10 @@ void Database_set(struct Connection *conn, int id, const char *name, const char 
 void Database_get(struct Connection *conn, int id);
 void Database_delete(struct Connection *conn, int id);
 void Database_list(struct Connection *conn);	
+
+int main(int argc, char *argv[])
+{
+	char *filename;
+	char action;
+	struct Connection *conn;
+	int id;
