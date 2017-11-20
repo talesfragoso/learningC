@@ -44,3 +44,6 @@ int main(int argc, char *argv[])
 	char action;
 	struct Connection *conn;
 	int id;
+
+	if (argc < 3) die("USAGE: ex17 <
+
