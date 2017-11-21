@@ -80,4 +80,31 @@ int main(int argc, char *argv[])
 	Database_close(conn);
 	return 0;
 }
+
+void die(const char *message)
+{
+	if (error) perror(message);
+	else printf("%s\n", message);
+	exit(1);
+}
+
+void Address_print(struct Address *addr)
+{
+	printf("%d %s %s\n", addr->id, addr->name, addr->email);
+}
+
+void Database_load(struct Connection *conn)
+{
+	int rc;
+
+	rc = fread(conn->db
+
+struct Connection *Database_open(const char *filename, char mode);
+void Database_close(struct Connection *conn);
+void Database_write(struct Connection *conn);
+void Database_create(struct Connection *conn);
+void Database_set(struct Connection *conn, int id, const char *name, const char *email);
+void Database_get(struct Connection *conn, int id);
+void Database_delete(struct Connection *conn, int id);
+void Database_list(struct Connection *conn);	
 			
