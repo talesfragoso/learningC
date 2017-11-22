@@ -101,7 +101,9 @@ void Database_load(struct Connection *conn)
 	if (rc != 1) die("Failed to load database");
 }
 
-struct Connection *Database_open(const char *filename, char mode);
+struct Connection *Database_open(const char *filename, char mode)
+{
+	
 void Database_close(struct Connection *conn);
 void Database_write(struct Connection *conn);
 void Database_create(struct Connection *conn);
