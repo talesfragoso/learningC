@@ -97,7 +97,9 @@ void Database_load(struct Connection *conn)
 {
 	int rc;
 
-	rc = fread(conn->db
+	rc = fread(conn->db, sizeof(struct Database), 1, conn->file);
+	if (rc != 1) die("Failed to load database");
+}
 
 struct Connection *Database_open(const char *filename, char mode);
 void Database_close(struct Connection *conn);
