@@ -45,12 +45,15 @@ int main(int argc, char *argv[])
 	struct Connection *conn;
 	int id = 0;
 
-	if (argc < 3) die("USAGE: ex17 <dbfile> <action> [action params]");
+	if (argc < 3) 
+		die("USAGE: ex17 <dbfile> <action> [action params]");
 	filename = argv[1];
 	action = argv[2][0];
 	conn = Database_open(filename, action);
-	if (argc > 3) id = atoi(argv[3]);
-	if (id >= MAX_ROWS) die("There's not that many records");
+	if (argc > 3) 
+		id = atoi(argv[3]);
+	if (id >= MAX_ROWS) 
+		die("There's not that many records");
 	switch (action)
 	{
 		case 'c': 
@@ -83,8 +86,10 @@ int main(int argc, char *argv[])
 
 void die(const char *message)
 {
-	if (error) perror(message);
-	else printf("%s\n", message);
+	if (error) 
+		perror(message);
+	else 
+		printf("%s\n", message);
 	exit(1);
 }
 
@@ -98,7 +103,8 @@ void Database_load(struct Connection *conn)
 	int rc;
 
 	rc = fread(conn->db, sizeof(struct Database), 1, conn->file);
-	if (rc != 1) die("Failed to load database");
+	if (rc != 1) 
+		die("Failed to load database");
 }
 
 struct Connection *Database_open(const char *filename, char mode)
@@ -106,14 +112,64 @@ struct Connection *Database_open(const char *filename, char mode)
 	struct Connection *conn;
 
 	conn = malloc(sizeof(struct Connection));
-	if (!conn) die("Memory error");
+	if (!conn) 
+		die("Memory error");
+	conn->db = malloc(sizeof(Database));
+	if (!(conn->db)) 
+		die("Memory error");
+	if (mode == 'c')
+		conn->file = fopen(filename, "w");
+	else
+	{		
+		conn->file = fopen(filename, "r+");
+		if (conn->file)
+			Database_load(conn);
+	}
+	if (!(conn-file))
+		die("Failed to open the file");
+	return conn;
+}
+
+void Database_close(struct Connection *conn)
+{
+	if (conn)
+	{
+		if (conn->file)
+			fclose(conn->file);
+		if (conn->db)
+			free(conn->db);
+		free(conn);
+	}
+}
+
+void Database_write(struct Connection *conn)
+{
+	int rc;	
 	
+	rewind(conn->file);
+	rc = fwrite(conn->db, sizeof(struct Database), 1, conn->file);
+	if (rc != 1)
+		die("Failed to write database.");
+	rc = fflush(conn->file);
+	if (rc == EOF)
+		die("Cannot flush database");
+} 	
 
+void Database_create(struct Connection *conn)
+{
+	int i;
+	struct Address addr;
 
-void Database_close(struct Connection *conn);
-void Database_write(struct Connection *conn);
-void Database_create(struct Connection *conn);
-void Database_set(struct Connection *conn, int id, const char *name, const char *email);
+	for (i = 0; i < MAX_ROWS; i++)
+	{
+		addr = {.id = i, .set = 0};
+		conn->db->rows[i] = addr;
+	}
+}
+
+void Database_set(struct Connection *conn, int id, const char *name, const char *email)
+{
+	
 void Database_get(struct Connection *conn, int id);
 void Database_delete(struct Connection *conn, int id);
 void Database_list(struct Connection *conn);	
