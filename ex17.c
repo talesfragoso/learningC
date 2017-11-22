@@ -103,7 +103,13 @@ void Database_load(struct Connection *conn)
 
 struct Connection *Database_open(const char *filename, char mode)
 {
+	struct Connection *conn;
+
+	conn = malloc(sizeof(struct Connection));
+	if (!conn) die("Memory error");
 	
+
+
 void Database_close(struct Connection *conn);
 void Database_write(struct Connection *conn);
 void Database_create(struct Connection *conn);
