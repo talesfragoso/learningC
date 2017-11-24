@@ -61,11 +61,13 @@ int main(int argc, char *argv[])
 			Database_write(conn);
 			break;
 		case 'g':
-			if (argc != 4) die("Need an id to get");
+			if (argc != 4) 
+				die("Need an id to get");
 			Database_get(conn,id);
 			break;
 		case 's':
-			if (argc != 6) die("Need id, name, email to set");
+			if (argc != 6) 
+				die("Need id, name, email to set");
 			Database_set(conn, argv[4], argv[5]);
 			Database_write(conn);
 			break;
@@ -169,6 +171,21 @@ void Database_create(struct Connection *conn)
 
 void Database_set(struct Connection *conn, int id, const char *name, const char *email)
 {
+	struct Address *addr;
+	char *res;
+
+	addr = &(conn->db->rows[i]);
+	if (addr->set)
+		die("Already set, delete it first");
+	addr->set = 1;
+	res = strncpy(addr->name, name, MAX_DATA);
+	if(!res)
+		die("Name copy failed.");
+	res = strncpy(addr->email, email, MAX_DATA);
+	if (!res)
+		die("Email copy failed");
+}
+
 	
 void Database_get(struct Connection *conn, int id);
 void Database_delete(struct Connection *conn, int id);
