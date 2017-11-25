@@ -206,5 +206,17 @@ void Database_delete(struct Connection *conn, int id)
 	conn->db->rows[id] = addr;
 }
 
-void Database_list(struct Connection *conn);	
-			
+void Database_list(struct Connection *conn)
+{
+	int i;
+	struct Database *db;
+	struct Address *cur;
+
+	db = conn->db;	
+	for (i = 0; i < MAX_ROWS; i++)
+	{
+		cur = &(conn->db->rows[i]);
+		if (cur->set)
+			Address_print(cur);
+	}
+}
