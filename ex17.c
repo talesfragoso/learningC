@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
 		case 's':
 			if (argc != 6) 
 				die("Need id, name, email to set");
-			Database_set(conn, argv[4], argv[5]);
+			Database_set(conn, atoi(argv[3]), argv[4], argv[5]);
 			Database_write(conn);
 			break;
 		case 'd':
