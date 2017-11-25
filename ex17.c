@@ -186,8 +186,25 @@ void Database_set(struct Connection *conn, int id, const char *name, const char 
 		die("Email copy failed");
 }
 
+void Database_get(struct Connection *conn, int id)
+{
+	struct Address *addr;
+
+	addr = &(conn->db->rows[id]);
 	
-void Database_get(struct Connection *conn, int id);
-void Database_delete(struct Connection *conn, int id);
+	if (addr->set)
+		Address_print(addr);
+	else
+		die("ID is not set");
+}	
+
+void Database_delete(struct Connection *conn, int id)
+{
+	struct Address addr;
+
+	addr = {.id = id, .set = 0};
+	conn->db->rows[id] = addr;
+}
+
 void Database_list(struct Connection *conn);	
 			
