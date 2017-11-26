@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
 
 void die(const char *message)
 {
-	if (error) 
+	if (errno) 
 		perror(message);
 	else 
 		printf("%s\n", message);
@@ -116,7 +116,7 @@ struct Connection *Database_open(const char *filename, char mode)
 	conn = malloc(sizeof(struct Connection));
 	if (!conn) 
 		die("Memory error");
-	conn->db = malloc(sizeof(Database));
+	conn->db = malloc(sizeof(struct Database));
 	if (!(conn->db)) 
 		die("Memory error");
 	if (mode == 'c')
@@ -127,7 +127,7 @@ struct Connection *Database_open(const char *filename, char mode)
 		if (conn->file)
 			Database_load(conn);
 	}
-	if (!(conn-file))
+	if (!(conn->file))
 		die("Failed to open the file");
 	return conn;
 }
@@ -164,7 +164,8 @@ void Database_create(struct Connection *conn)
 
 	for (i = 0; i < MAX_ROWS; i++)
 	{
-		addr = {.id = i, .set = 0};
+		addr.id = 1;
+		addr.set = 0;
 		conn->db->rows[i] = addr;
 	}
 }
@@ -174,10 +175,11 @@ void Database_set(struct Connection *conn, int id, const char *name, const char 
 	struct Address *addr;
 	char *res;
 
-	addr = &(conn->db->rows[i]);
+	addr = &(conn->db->rows[id]);
 	if (addr->set)
 		die("Already set, delete it first");
 	addr->set = 1;
+	addr->id = id;	
 	res = strncpy(addr->name, name, MAX_DATA);
 	if(!res)
 		die("Name copy failed.");
@@ -200,19 +202,16 @@ void Database_get(struct Connection *conn, int id)
 
 void Database_delete(struct Connection *conn, int id)
 {
-	struct Address addr;
+	struct Address addr = {.id = id, .set = 0};
 
-	addr = {.id = id, .set = 0};
 	conn->db->rows[id] = addr;
 }
 
 void Database_list(struct Connection *conn)
 {
 	int i;
-	struct Database *db;
 	struct Address *cur;
 
-	db = conn->db;	
 	for (i = 0; i < MAX_ROWS; i++)
 	{
 		cur = &(conn->db->rows[i]);
